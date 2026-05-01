@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PharmaRecipe Trainer — Подготовка к экзамену по фармакологии</title>
+  <link rel="stylesheet" href="styles.css">
+  <!-- Preconnect for fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <!-- NAVIGATION BAR                                                 -->
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-brand">
+      <div class="nav-logo">💊</div>
+      <span class="nav-title">PharmaRecipe</span>
+    </div>
+
+    <button class="nav-toggle" id="navToggle" aria-label="Открыть меню">
+      <span></span><span></span><span></span>
+    </button>
+
+    <ul class="nav-menu" id="navMenu">
+      <li><a href="#dashboard" class="nav-link active" data-view="dashboard">📊 Главная</a></li>
+      <li><a href="#flashcards" class="nav-link" data-view="flashcards">🎴 Карточки</a></li>
+      <li><a href="#quiz" class="nav-link" data-view="quiz">❓ Тест</a></li>
+      <li><a href="#matching" class="nav-link" data-view="matching">🔗 Соответствие</a></li>
+      <li><a href="#write" class="nav-link" data-view="write">✍️ Написать рецепт</a></li>
+      <li><a href="#exam" class="nav-link" data-view="exam">📝 Экзамен</a></li>
+      <li><a href="#recipes" class="nav-link" data-view="recipes">📚 Все рецепты</a></li>
+    </ul>
+
+    <div class="nav-actions">
+      <button class="theme-toggle" id="themeToggle" title="Переключить тему">
+        <span class="theme-icon">🌙</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <!-- MOBILE OVERLAY                                                 -->
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <div class="mobile-overlay" id="mobileOverlay"></div>
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <!-- MAIN CONTENT AREA                                              -->
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <main class="main-container" id="mainContainer">
+
+    <!-- ───────────────────────────────────────────────────────────── -->
+    <!-- VIEW: DASHBOARD                                               -->
+    <!-- ───────────────────────────────────────────────────────────── -->
+    <section class="view" id="view-dashboard">
+      <div class="dashboard-hero">
+        <h1>PharmaRecipe Trainer</h1>
+        <p class="subtitle">Интерактивная подготовка к 1 этапу экзамена по фармакологии</p>
+        <p class="university">Тюменский ГМУ</p>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon">📋</div>
+          <div class="stat-value" id="statTotal">0</div>
+          <div class="stat-label">Всего рецептов</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">✅</div>
+          <div class="stat-value" id="statLearned">0</div>
+          <div class="stat-label">Выучено</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">📈</div>
+          <div class="stat-value" id="statPercent">0%</div>
+          <div class="stat-label">Прогресс</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🎯</div>
+          <div class="stat-value" id="statAccuracy">0%</div>
+          <div class="stat-label">Правильных ответов</div>
+        </div>
+      </div>
+
+      <div class="quick-access">
+        <h2>Быстрый доступ</h2>
+        <div class="quick-grid">
+          <a href="#flashcards" class="quick-card">
+            <span class="quick-icon">🎴</span>
+            <span class="quick-title">Карточки</span>
+            <span class="quick-desc">3D flip-карточки с рецептами</span>
+          </a>
+          <a href="#quiz" class="quick-card">
+            <span class="quick-icon">❓</span>
+            <span class="quick-title">Тест</span>
+            <span class="quick-desc">Множественный выбор</span>
+          </a>
+          <a href="#matching" class="quick-card">
+            <span class="quick-icon">🔗</span>
+            <span class="quick-title">Соответствие</span>
+            <span class="quick-desc">Соедини показание и препарат</span>
+          </a>
+          <a href="#write" class="quick-card">
+            <span class="quick-icon">✍️</span>
+            <span class="quick-title">Написать рецепт</span>
+            <span class="quick-desc">Практика написания рецептов</span>
+          </a>
+          <a href="#exam" class="quick-card exam-card">
+            <span class="quick-icon">📝</span>
+            <span class="quick-title">Экзамен</span>
+            <span class="quick-desc">25 вопросов за 30 минут</span>
+          </a>
+          <a href="#recipes" class="quick-card">
+            <span class="quick-icon">📚</span>
+            <span class="quick-title">Все рецепты</span>
+            <span class="quick-desc">Поиск и фильтрация</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="recent-activity" id="recentActivity">
+        <h2>Недавняя активность</h2>
+        <div class="activity-list" id="activityList">
+          <p class="empty-state">Начните обучение, чтобы увидеть прогресс</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────────────────────────────────────────────────────────── -->
+    <!-- VIEW: FLASHCARDS                                              -->
+    <!-- ───────────────────────────────────────────────────────────── -->
+    <section class="view hidden" id="view-flashcards">
+      <div class="view-header">
+        <h1>🎴 Карточки</h1>
+        <p>Изучайте рецепты с 3D-эффектом переворота</p>
+      </div>
+
+      <div class="flashcard-controls">
+        <div class="control-group">
+          <label for="fcCategory">Категория:</label>
+          <select id="fcCategory">
+            <option value="all">Все категории</option>
+          </select>
+        </div>
+        <div class="control-group">
+          <label>
+            <input type="checkbox" id="fcShuffle"> Случайный порядок
+          </label>
+        </div>
+        <div class="control-group">
+          <button class="btn btn-secondary" id="fcReset">↻ Сбросить прогресс</button>
+        </div>
+      </div>
+
+      <div class="flashcard-progress">
+        <div class="progress-bar">
+          <div class="progress-fill" id="fcProgressFill"></div>
+        </div>
+        <span class="progress-text" id="fcProgressText">0 / 0</span>
+      </div>
+
+      <div class="flashcard-container" id="flashcardContainer">
+        <div class="flashcard" id="flashcard">
+          <div class="flashcard-inner">
+            <div class="flashcard-front">
+              <div class="fc-category" id="fcFrontCategory"></div>
+              <div class="fc-indication" id="fcFrontIndication"></div>
+              <div class="fc-drug" id="fcFrontDrug"></div>
+              <div class="fc-hint">Нажмите, чтобы перевернуть ↻</div>
+            </div>
+            <div class="flashcard-back">
+              <div class="fc-category" id="fcBackCategory"></div>
+              <div class="fc-recipe" id="fcBackRecipe"></div>
+              <div class="fc-note" id="fcBackNote"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flashcard-actions">
+        <button class="btn btn-danger" id="fcAgain">🔁 Повторить</button>
+        <button class="btn btn-primary" id="fcShow">👁 Показать ответ</button>
+        <button class="btn btn-success" id="fcKnow">✅ Знаю</button>
+      </div>
+    </section>
+
+    <!-- ───────────────────────────────────────────────────────────── -->
+    <!-- VIEW: QUIZ                                                    -->
+    <!-- ───────────────────────────────────────────────────────────── -->
+    <section class="view hidden" id="view-quiz">
+      <div class="view-header">
+        <h1>❓ Тест с выбором ответа</h1>
+        <p>Проверьте знания с разными типами вопросов</p>
+      </div>
+
+      <div class="quiz-setup" id="quizSetup">
+        <div class="setup-card">
+          <h3>Настройки теста</h3>
+          <div class="setup-options">
+            <div class="setup-option">
+              <label>Количество вопросов:</label>
+              <div class="radio-group">
+                <label><input type="radio" name="quizCount" value="10" checked> 10</label>
+                <label><input type="radio" name="quizCount" value="25"> 25</label>
+                <label><input type="radio" name="quizCount" value="50"> 50</label>
+              </div>
+            </div>
+            <div class="setup-option">
+              <label>Категория:</label>
+              <select id="quizCategory">
+                <option value="all">Все категории</option>
+              </select>
+            </div>
+          </div>
+          <button class="btn btn-primary btn-large" id="quizStart">▶ Начать тест</button>
+        </div>
+      </div>
+
+      <div class="quiz-game hidden" id="quizGame">
+        <div class="quiz-progress">
+          <div class="progress-bar">
+            <div class="progress-fill" id="quizProgressFill"></div>
+          </div>
+          <span class="progress-text" id="quizProgressText">1 / 10</span>
+        </div>
+
+        <div class="quiz-question-card">
+          <div class="quiz-type-badge" id="quizTypeBadge">Тип вопроса</div>
+          <h2 class="quiz-question" id="quizQuestion"></h2>
+          <div class="quiz-context" id="quizContext"></div>
+        </div>
+
+        <div class="quiz-options" id="quizOptions"></div>
+
+        <div class="quiz-feedback hidden" id="quizFeedback">
+          <div class="feedback-icon" id="feedbackIcon"></div>
+          <div class="feedback-text" id="feedbackText"></div>
+          <div class="feedback-explanation" id="feedbackExplanation"></div>
+        </div>
+
+        <div class="quiz-actions">
+          <button class="btn btn-primary hidden" id="quizNext">Далее →</button>
+        </div>
+      </div>
+
+      <div class="quiz-results hidden" id="quizResults">
+        <div class="results-card">
+          <div class="results-icon">🏆</div>
+          <h2>Результаты теста</h2>
+          <div class="results-score" id="quizScore"></div>
+          <div class="results-stats" id="quizStats"></div>
+          <div class="results-actions">
+            <button class="btn btn-primary" id="quizRestart">↻ Пройти ещё раз</button>
+            <a href="#dashboard" class="btn btn-secondary">На главную</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────────────────────────────────────────────────────────── -->
+    <!-- VIEW: MATCHING                                                -->
+    <!-- ───────────────────────────────────────────────────────────── -->
+    <section class="view hidden" id="view-matching">
+      <div class="view-header">
+        <h1>🔗 Задание на соответствие</h1>
+        <p>Соедините показание, препарат и рецепт</p>
+      </div>
+
+      <div class="matching-setup" id="matchingSetup">
+        <div class="setup-card">
+          <h3>Настройки</h3>
+          <div class="setup-options">
+            <div class="setup-option">
+              <label>Сложность:</label>
+              <div class="radio-group">
+                <label><input type="radio" name="matchDiff" value="easy" checked> Легко (3 пары)</label>
+                <label><input type="radio" name="matchDiff" value="medium"> Средне (5 пар)</label>
+                <label><input type="radio" name="matchDiff" value="hard"> Сложно (8 пар)</label>
+              </div>
+            </div>
+          </div>
+          <button class="btn btn-primary btn-large" id="matchStart">▶ Начать</button>
+        </div>
+      </div>
+
+      <div class="matching-game hidden" id="matchingGame">
+        <div class="matching-info">
+          <span id="matchPairsFound">0</span> / <span id="matchPairsTotal">0</span> пар найдено
+        </div>
+
+        <div class="matching-board" id="matchingBoard">
+          <!-- Generated dynamically -->
+        </div>
+
+        <div class="matching-actions">
+          <button class="btn btn-secondary" id="matchShuffle">↻ Перемешать</button>
+          <button class="btn btn-danger" id="matchGiveUp">Сдаться</button>
+        </div>
+      </div>
+
+      <div class="matching-results hidden" id="matchingResults">
+        <div class="results-card">
+          <div class="results-icon">🎯</div>
+          <h2>Результат</h2>
+          <div class="results-score" id="matchScore"></div>
+          <div class="results-actions">
+            <button class="btn btn-primary" id="matchRestart">↻ Играть снова</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────────────────────────────────────────────────────────── -->
+    <!-- VIEW: WRITE RECIPE                                            -->
+    <!-- ───────────────────────────────────────────────────────────── -->
+    <section class="view hidden" id="view-write">
+      <div class="view-header">
+        <h1>✍️ Написать рецепт</h1>
+        <p>Практикуйтесь в написании рецептов по показанию и препарату</p>
+      </div>
+
+      <div class="write-setup" id="writeSetup">
+        <div class="setup-card">
+          <h3>Настройки</h3>
+          <div class="setup-options">
+            <div class="setup-option">
+              <label>Категория:</label>
+              <select id="writeCategory">
+                <option value="all">Все категории</option>
+              </select>
+            </div>
+          </div>
+          <button class="btn btn-primary btn-large" id="writeStart">▶ Начать</button>
+        </div>
+      </div>
+
+      <div class="write-game hidden" id="writeGame">
+        <div class="write-task">
+          <div class="task-label">Показание:</div>
+          <div class="task-indication" id="writeIndication"></div>
+          <div class="task-label">Препарат:</div>
+          <div class="task-drug" id="writeDrug"></div>
+          <div class="task-label">Латинское название:</div>
+          <div class="task-latin" id="writeLatin"></div>
+        </div>
+
+        <div class="write-input-area">
+          <label for="writeRecipeInput">Напишите рецепт:</label>
+          <textarea id="writeRecipeInput" rows="8" placeholder="Rp.: ...
+D.t.d. N. ...
+S. ..."></textarea>
+          <div class="write-hints">
+            <small>💡 Подсказка: начните с "Rp.:" и включите D.t.d. N. и S.</small>
+          </div>
+        </div>
+
+        <div class="write-actions">
+          <button class="btn btn-secondary" id="writeHint">💡 Подсказка</button>
+          <button class="btn btn-primary" id="writeCheck">✓ Проверить</button>
+          <button class="btn btn-success hidden" id="writeNext">Далее →</button>
+        </div>
+
+        <div class="write-feedback hidden" id="writeFeedback">
+          <div class="feedback-header" id="writeFeedbackHeader"></div>
+          <div class="feedback-details" id="writeFeedbackDetails"></div>
+          <div class="correct-recipe" id="writeCorrectRecipe"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────────────────────────────────────────────────────────── -->
+    <!-- VIEW: EXAM MODE                                               -->
+    <!-- ───────────────────────────────────────────────────────────── -->
+    <section class="view hidden" id="view-exam">
+      <div class="view-header">
+        <h1>📝 Экзаменационный режим</h1>
+        <p>25 случайных вопросов за 30 минут</p>
+      </div>
+
+      <div class="exam-setup" id="examSetup">
+        <div class="setup-card exam-intro">
+          <div class="exam-icon">🎓</div>
+          <h3>Экзамен по фармакологии</h3>
+          <ul class="exam-rules">
+            <li>📋 25 случайных вопросов из всех категорий</li>
+            <li>⏱️ На выполнение даётся 30 минут</li>
+            <li>❌ Нельзя вернуться к предыдущим вопросам</li>
+            <li>✅ Результат покажет процент правильных ответов и разбор ошибок</li>
+          </ul>
+          <button class="btn btn-primary btn-large" id="examStart">▶ Начать экзамен</button>
+        </div>
+      </div>
+
+      <div class="exam-game hidden" id="examGame">
+        <div class="exam-header">
+          <div class="exam-timer" id="examTimer">30:00</div>
+          <div class="exam-progress">
+            <span id="examQuestionNum">1</span> / 25
+          </div>
+        </div>
+
+        <div class="exam-question-card">
+          <h2 class="exam-question" id="examQuestion"></h2>
+          <div class="exam-context" id="examContext"></div>
+        </div>
+
+        <div class="exam-options" id="examOptions"></div>
+
+        <div class="exam-actions">
+          <button class="btn btn-primary" id="examNext">Ответить →</button>
+        </div>
+      </div>
+
+      <div class="exam-results hidden" id="examResults">
+        <div class="results-card">
+          <div class="results-icon" id="examResultIcon">🎓</div>
+          <h2>Результаты экзамена</h2>
+          <div class="exam-time-spent" id="examTimeSpent"></div>
+          <div class="results-score" id="examScore"></div>
+          <div class="exam-grade" id="examGrade"></div>
+
+          <div class="exam-breakdown" id="examBreakdown">
+            <h3>Разбор ошибок</h3>
+            <div class="breakdown-list" id="breakdownList"></div>
+          </div>
+
+          <div class="results-actions">
+            <button class="btn btn-primary" id="examRestart">↻ Пройти ещё раз</button>
+            <a href="#dashboard" class="btn btn-secondary">На главную</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────────────────────────────────────────────────────────── -->
+    <!-- VIEW: ALL RECIPES                                             -->
+    <!-- ───────────────────────────────────────────────────────────── -->
+    <section class="view hidden" id="view-recipes">
+      <div class="view-header">
+        <h1>📚 Все рецепты</h1>
+        <p>Полная библиотека рецептов с поиском и фильтрацией</p>
+      </div>
+
+      <div class="recipes-toolbar">
+        <div class="search-box">
+          <input type="text" id="recipeSearch" placeholder="🔍 Поиск по показанию, препарату или латинскому названию...">
+        </div>
+        <div class="filter-box">
+          <select id="recipeFilter">
+            <option value="all">Все категории</option>
+          </select>
+        </div>
+        <div class="sort-box">
+          <select id="recipeSort">
+            <option value="id">По номеру</option>
+            <option value="category">По категории</option>
+            <option value="drug">По препарату</option>
+            <option value="learned">Сначала невыученные</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="recipes-stats">
+        <span id="recipesCount">Показано: 0 / 0</span>
+        <button class="btn btn-small btn-danger" id="resetProgress">↻ Сбросить весь прогресс</button>
+      </div>
+
+      <div class="recipes-grid" id="recipesGrid">
+        <!-- Generated dynamically -->
+      </div>
+
+      <div class="recipe-modal hidden" id="recipeModal">
+        <div class="modal-overlay" id="modalOverlay"></div>
+        <div class="modal-content">
+          <button class="modal-close" id="modalClose">&times;</button>
+          <div class="modal-body" id="modalBody"></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <!-- FOOTER                                                         -->
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <footer class="footer">
+    <p>PharmaRecipe Trainer &copy; 2026 — Подготовка к экзамену по фармакологии</p>
+    <p class="footer-sub">Тюменский ГМУ | 112 обязательных рецептов</p>
+  </footer>
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <!-- SCRIPTS                                                        -->
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
